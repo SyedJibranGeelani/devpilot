@@ -1,0 +1,100 @@
+.root { display: flex; flex-direction: column; gap: 1rem; }
+
+.summary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summaryText { margin: 0; color: var(--text-muted); font-size: 0.9375rem; line-height: 1.5; }
+
+.stats { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+
+.stat { font-size: 0.875rem; color: var(--text-muted); }
+.stat strong { color: var(--text); }
+.coverage strong { color: var(--info); }
+
+.subTabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+
+.subTab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  margin-bottom: -1px;
+  transition: color 0.12s, border-color 0.12s;
+}
+.subTab:hover { color: var(--text); }
+.subTabActive { color: var(--accent) !important; border-bottom-color: var(--accent) !important; }
+
+.gapList { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+
+.gapItem {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--warn);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.gapTop { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+
+.fnName {
+  font-family: monospace;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.fnFile {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.gapReason { margin: 0; font-size: 0.875rem; color: var(--text-muted); line-height: 1.5; }
+
+.generatedPanel { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.testSelector { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.testSelectorBtn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.12s;
+}
+.testSelectorBtn:hover { border-color: var(--accent); color: var(--text); }
+.testSelectorActive { border-color: var(--accent) !important; color: var(--accent) !important; background: rgba(99,102,241,0.08) !important; }
+
+.framework {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--border);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
+  color: var(--text-muted);
+}

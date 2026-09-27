@@ -1,0 +1,165 @@
+.root { display: flex; flex-direction: column; gap: 1rem; }
+
+.summary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summaryText { margin: 0; color: var(--text-muted); font-size: 0.9375rem; line-height: 1.5; }
+
+.counters { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.counter {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  border: 1px solid;
+}
+.counter.critical { color: #fca5a5; border-color: #ef4444; background: rgba(239,68,68,0.1); }
+.counter.high     { color: #fdba74; border-color: #f97316; background: rgba(249,115,22,0.1); }
+.counter.medium   { color: #fde68a; border-color: #f59e0b; background: rgba(245,158,11,0.1); }
+.counter.low      { color: #86efac; border-color: #22c55e; background: rgba(34,197,94,0.1); }
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.filterLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  min-width: 5rem;
+}
+
+.filterBtn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  transition: all 0.12s;
+}
+.filterBtn:hover { border-color: var(--accent); color: var(--text); }
+.filterBtn.filterActive { border-color: var(--accent); color: var(--accent); background: rgba(99,102,241,0.1); }
+
+.filterCount {
+  background: var(--border);
+  border-radius: 9999px;
+  padding: 0 0.375rem;
+  font-size: 0.75rem;
+}
+
+.empty { color: var(--text-muted); text-align: center; padding: 2rem; }
+
+.list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+
+.issueRow {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: border-color 0.12s;
+}
+.issueRow.critical { border-left: 3px solid var(--danger); }
+.issueRow.high     { border-left: 3px solid #f97316; }
+.issueRow.medium   { border-left: 3px solid var(--warn); }
+.issueRow.low      { border-left: 3px solid var(--success); }
+.issueRow.info     { border-left: 3px solid var(--info); }
+
+.issueHeader {
+  width: 100%;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+.issueHeader:hover { background: rgba(255,255,255,0.03); }
+
+.badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+.badge.critical { background: rgba(239,68,68,0.2);  color: #fca5a5; }
+.badge.high     { background: rgba(249,115,22,0.2); color: #fdba74; }
+.badge.medium   { background: rgba(245,158,11,0.2); color: #fde68a; }
+.badge.low      { background: rgba(34,197,94,0.2);  color: #86efac; }
+.badge.info     { background: rgba(59,130,246,0.2); color: #93c5fd; }
+
+.categoryBadge {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.issueTitle {
+  flex: 1;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text);
+  min-width: 0;
+}
+
+.issueMeta {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.chevron { color: var(--text-muted); font-size: 0.7rem; flex-shrink: 0; }
+
+.issueBody {
+  padding: 0.75rem 1rem 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.issueDesc { margin: 0; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+
+.suggestion {
+  background: rgba(99,102,241,0.06);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+}
+.suggestionLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.375rem;
+}
+.suggestion p { margin: 0; font-size: 0.875rem; color: var(--text-muted); line-height: 1.5; }

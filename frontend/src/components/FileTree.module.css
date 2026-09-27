@@ -1,0 +1,54 @@
+.root {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.heading {
+  margin: 0;
+  padding: 0.875rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0;
+}
+
+.item {
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 0.875rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-right: 1rem;
+  text-align: left;
+  transition: background 0.1s;
+  white-space: nowrap;
+}
+
+.row:hover { background: rgba(255,255,255,0.04); }
+
+.dir { font-weight: 500; }
+
+.file { color: var(--text-muted); }
+.file:hover { color: var(--text); }
+
+.icon { flex-shrink: 0; font-size: 0.875rem; }
+.name { overflow: hidden; text-overflow: ellipsis; }

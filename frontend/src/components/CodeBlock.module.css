@@ -1,0 +1,43 @@
+.root {
+  position: relative;
+  background: #0d1117;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.lang {
+  position: absolute;
+  top: 0.6rem;
+  left: 1rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.copy {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  transition: color 0.12s, border-color 0.12s;
+}
+.copy:hover { color: var(--text); border-color: var(--accent); }
+
+.pre {
+  margin: 0;
+  padding: 2.5rem 1rem 1rem;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: #e2e8f0;
+}
+
+code { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
