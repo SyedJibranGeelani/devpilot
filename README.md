@@ -301,7 +301,7 @@ No `.env` file is needed for local development. The app automatically falls back
    ```
 2. The file already contains the deployed backend URL — no edits required:
    ```env
-   VITE_API_URL=https://devpilot-1oai.onrender.com
+   VITE_API_URL=https://devpilot-1-0iai.onrender.com
    ```
 3. Build the frontend:
    ```bash
