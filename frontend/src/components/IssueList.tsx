@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { IssuesResult, Issue, Severity, IssueCategory } from '../types/analysis';
+import type { IssuesResult, Issue, Severity } from '../types/analysis';
 import styles from './IssueList.module.css';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 
 const SEVERITY_ORDER: Severity[] = ['critical', 'high', 'medium', 'low', 'info'];
 
-const SEVERITY_LABEL: Record<Severity, string> = {
+const SEVERITY_LABEL: Record<string, string> = {
   critical: 'Critical',
   high: 'High',
   medium: 'Medium',
@@ -16,17 +16,23 @@ const SEVERITY_LABEL: Record<Severity, string> = {
   info: 'Info',
 };
 
-const CATEGORY_LABEL: Record<IssueCategory, string> = {
-  security: '🔒 Security',
-  bug: '🐛 Bug',
-  'code-quality': '🧹 Code Quality',
-  performance: '⚡ Performance',
-};
+function categoryLabel(cat: string): string {
+  const MAP: Record<string, string> = {
+    security: '🔒 Security',
+    bug: '🐛 Bug',
+    'code-quality': '🧹 Code Quality',
+    performance: '⚡ Performance',
+  };
+  return MAP[cat] ?? `🏷️ ${cat}`;
+}
 
 export default function IssueList({ result }: Props) {
   const [activeSeverity, setActiveSeverity] = useState<Severity | 'all'>('all');
-  const [activeCategory, setActiveCategory] = useState<IssueCategory | 'all'>('all');
+  const [activeCategory, setActiveCategory] = useState<string>('all');
   const [expanded, setExpanded] = useState<number | null>(null);
+
+  // Derive categories present in the data
+  const categories = Array.from(new Set(result.issues.map((i) => i.category)));
 
   const filtered = result.issues.filter((issue) => {
     const sevMatch = activeSeverity === 'all' || issue.severity === activeSeverity;
@@ -34,7 +40,7 @@ export default function IssueList({ result }: Props) {
     return sevMatch && catMatch;
   });
 
-  const counts: Record<Severity, number> = {
+  const counts: Record<string, number> = {
     critical: result.critical_count,
     high: result.high_count,
     medium: result.medium_count,
@@ -75,13 +81,19 @@ export default function IssueList({ result }: Props) {
         </div>
         <div className={styles.filterGroup}>
           <span className={styles.filterLabel}>Category</span>
-          {(['all', 'security', 'bug', 'code-quality', 'performance'] as const).map((c) => (
+          <button
+            className={`${styles.filterBtn} ${activeCategory === 'all' ? styles.filterActive : ''}`}
+            onClick={() => setActiveCategory('all')}
+          >
+            All
+          </button>
+          {categories.map((c) => (
             <button
               key={c}
               className={`${styles.filterBtn} ${activeCategory === c ? styles.filterActive : ''}`}
               onClick={() => setActiveCategory(c)}
             >
-              {c === 'all' ? 'All' : CATEGORY_LABEL[c]}
+              {categoryLabel(c)}
             </button>
           ))}
         </div>
@@ -108,13 +120,13 @@ export default function IssueList({ result }: Props) {
 
 function IssueRow({ issue, open, onToggle }: { issue: Issue; open: boolean; onToggle: () => void }) {
   return (
-    <li className={`${styles.issueRow} ${styles[issue.severity]}`}>
+    <li className={`${styles.issueRow} ${styles[issue.severity] ?? ''}`}>
       <button className={styles.issueHeader} onClick={onToggle}>
-        <span className={`${styles.badge} ${styles[issue.severity]}`}>
-          {SEVERITY_LABEL[issue.severity]}
+        <span className={`${styles.badge} ${styles[issue.severity] ?? ''}`}>
+          {SEVERITY_LABEL[issue.severity] ?? issue.severity}
         </span>
         <span className={styles.categoryBadge}>
-          {CATEGORY_LABEL[issue.category]}
+          {categoryLabel(issue.category)}
         </span>
         <span className={styles.issueTitle}>{issue.title}</span>
         <span className={styles.issueMeta}>
@@ -124,9 +136,20 @@ function IssueRow({ issue, open, onToggle }: { issue: Issue; open: boolean; onTo
       </button>
       {open && (
         <div className={styles.issueBody}>
+          {/* File + line detail row */}
+          <div className={styles.issueLocation}>
+            <span className={styles.locationLabel}>📄 File</span>
+            <code className={styles.locationValue}>
+              {issue.file}{issue.line != null ? `:${issue.line}` : ''}
+            </code>
+          </div>
+
+          {/* Explanation */}
           <p className={styles.issueDesc}>{issue.description}</p>
+
+          {/* Recommendation */}
           <div className={styles.suggestion}>
-            <span className={styles.suggestionLabel}>💡 Suggestion</span>
+            <span className={styles.suggestionLabel}>💡 Recommendation</span>
             <p>{issue.suggestion}</p>
           </div>
         </div>

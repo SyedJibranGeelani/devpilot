@@ -6,7 +6,7 @@ and a plain-text summary. LLM-powered narrative analysis is wired in a later tas
 """
 
 from collections import Counter
-from models.schemas import CodebaseResult, FileNode, LanguageStat
+from models.schemas import CodebaseResult, FileNode, LanguageStat, StackInfo
 from services.file_reader import walk_project, build_file_tree, read_file_content
 from services.stack_detector import detect_stack
 
@@ -87,12 +87,20 @@ async def analyze_codebase(project_path: str) -> CodebaseResult:
 
     summary = "  ".join(summary_parts)
 
+    stack_schema = StackInfo(
+        languages=stack.languages,
+        frameworks=stack.frameworks,
+        tools=stack.tools,
+        package_managers=stack.package_managers,
+    )
+
     return CodebaseResult(
         file_tree=file_tree,
         language_stats=lang_stats,
         summary=summary,
         total_files=total_files,
         total_lines=total_lines,
+        stack=stack_schema,
     )
 
 

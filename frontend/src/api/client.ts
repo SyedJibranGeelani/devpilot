@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { AnalyzeRequest, AnalyzeResponse, CodebaseResult, IssuesResult, TestsResult, DeployResult } from '../types/analysis';
 
-const BASE_URL = import.meta.env.VITE_API_URL ?? '';
+const BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
 
 const http = axios.create({
   baseURL: BASE_URL,
@@ -13,6 +13,26 @@ export const api = {
   health: () =>
     http.get<{ status: string }>('/health').then((r) => r.data),
 
+  /** Upload a ZIP file and run full analysis. */
+  analyzeZip: (
+    file: File,
+    onUploadProgress?: (pct: number) => void,
+  ) => {
+    const form = new FormData();
+    form.append('file', file);
+    return http
+      .post<AnalyzeResponse>('/analyze/upload', form, {
+        timeout: 180_000,
+        onUploadProgress: (e) => {
+          if (onUploadProgress && e.total) {
+            onUploadProgress(Math.round((e.loaded * 100) / e.total));
+          }
+        },
+      })
+      .then((r) => r.data);
+  },
+
+  /** Analyze a local project path (developer/local mode). */
   analyze: (req: AnalyzeRequest) =>
     http.post<AnalyzeResponse>('/analyze', req).then((r) => r.data),
 

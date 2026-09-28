@@ -1,52 +1,73 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PathInput from '../components/PathInput';
+import ZipUpload from '../components/ZipUpload';
 import styles from './HomePage.module.css';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const [path, setPath] = useState('');
+  const [zipFile, setZipFile] = useState<File | null>(null);
+  const [localPath, setLocalPath] = useState('');
   const [error, setError] = useState('');
 
-  function handleStart() {
-    const trimmed = path.trim();
-    if (!trimmed) {
-      setError('Please enter a project path.');
+  const handleFile = useCallback((file: File) => {
+    setZipFile(file);
+    setError('');
+  }, []);
+
+  function handleAnalyze() {
+    if (!zipFile && !localPath.trim()) {
+      setError('Please select a ZIP file or enter a local project path.');
       return;
     }
     setError('');
-    // Pass the path via location state to the results page
-    navigate('/results', { state: { projectPath: trimmed } });
+
+    if (zipFile) {
+      // Pass the File object via location state — ResultsPage handles the upload
+      navigate('/results', { state: { zipFile, fileName: zipFile.name } });
+    } else {
+      navigate('/results', { state: { projectPath: localPath.trim() } });
+    }
   }
+
+  const canAnalyze = !!(zipFile || localPath.trim());
 
   return (
     <main className={styles.root}>
       <div className={styles.hero}>
-        <div className={styles.badge}>AI-Powered</div>
+        <div className={styles.badge}>AI-Powered Code Analysis</div>
         <h1 className={styles.title}>
           Dev<span className={styles.accent}>Pilot</span>
         </h1>
         <p className={styles.tagline}>
-          Understand any codebase. Detect issues. Generate tests. Ship with confidence.
+          Upload your project as a ZIP and get an instant codebase overview,
+          security findings, test-gap analysis, and deployment readiness report.
         </p>
 
         <div className={styles.inputGroup}>
-          <PathInput
-            value={path}
-            onChange={setPath}
-            onSubmit={handleStart}
-            placeholder="/absolute/path/to/your/project"
+          <ZipUpload
+            onFile={handleFile}
+            localModeEnabled={true}
+            localPath={localPath}
+            onLocalPathChange={setLocalPath}
+            onLocalPathSubmit={handleAnalyze}
           />
+
           {error && <p className={styles.error}>{error}</p>}
-          <button className={styles.startBtn} onClick={handleStart}>
+
+          <button
+            className={styles.startBtn}
+            onClick={handleAnalyze}
+            disabled={!canAnalyze}
+          >
             Analyze Project →
           </button>
         </div>
 
         <ul className={styles.features}>
-          <li>🔍 Codebase overview &amp; language stats</li>
-          <li>🛡️ Security &amp; problem detection</li>
-          <li>🧪 Missing test identification &amp; generation</li>
+          <li>📦 Upload any project as a ZIP — no local paths needed</li>
+          <li>🔍 Codebase overview, language stats &amp; stack detection</li>
+          <li>🛡️ Security, bugs &amp; code-quality issue detection</li>
+          <li>🧪 Missing test identification &amp; stub generation</li>
           <li>🚀 Deployment readiness checklist</li>
         </ul>
       </div>

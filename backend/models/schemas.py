@@ -25,12 +25,20 @@ class LanguageStat(BaseModel):
     percentage: float
 
 
+class StackInfo(BaseModel):
+    languages: list[str] = []
+    frameworks: list[str] = []
+    tools: list[str] = []
+    package_managers: list[str] = []
+
+
 class CodebaseResult(BaseModel):
     file_tree: FileNode
     language_stats: list[LanguageStat]
     summary: str
     total_files: int
     total_lines: int
+    stack: StackInfo | None = None
 
 
 # ── Issue Detection ───────────────────────────────────────────────────────────

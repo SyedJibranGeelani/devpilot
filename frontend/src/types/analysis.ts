@@ -13,18 +13,31 @@ export interface LanguageStat {
   percentage: number;
 }
 
+export interface StackInfo {
+  languages: string[];
+  frameworks: string[];
+  tools: string[];
+  package_managers: string[];
+}
+
 export interface CodebaseResult {
   file_tree: FileNode;
   language_stats: LanguageStat[];
   summary: string;
   total_files: number;
   total_lines: number;
+  stack?: StackInfo | null;
 }
 
 // ── Issues ────────────────────────────────────────────────────────────────────
 
 export type Severity = 'critical' | 'high' | 'medium' | 'low' | 'info';
-export type IssueCategory = 'security' | 'bug' | 'code-quality' | 'performance';
+export type IssueCategory =
+  | 'security'
+  | 'bug'
+  | 'code-quality'
+  | 'performance'
+  | string; // allow any category string from backend
 
 export interface Issue {
   file: string;

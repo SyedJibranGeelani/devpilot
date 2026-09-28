@@ -1,4 +1,4 @@
-import type { AnalyzeResponse, LanguageStat } from '../types/analysis';
+import type { AnalyzeResponse, LanguageStat, StackInfo } from '../types/analysis';
 import FileTree from './FileTree';
 import styles from './OverviewPanel.module.css';
 
@@ -37,10 +37,51 @@ export default function OverviewPanel({ data }: Props) {
         </div>
       </div>
 
+      {/* Stack info card */}
+      {codebase.stack && !isStackEmpty(codebase.stack) && (
+        <StackCard stack={codebase.stack} />
+      )}
+
       {/* Two-column grid: language stats + file tree */}
       <div className={styles.grid}>
         <LanguageChart stats={codebase.language_stats} />
         <FileTree node={codebase.file_tree} />
+      </div>
+    </div>
+  );
+}
+
+function isStackEmpty(s: StackInfo): boolean {
+  return (
+    s.languages.length === 0 &&
+    s.frameworks.length === 0 &&
+    s.tools.length === 0 &&
+    s.package_managers.length === 0
+  );
+}
+
+function StackCard({ stack }: { stack: StackInfo }) {
+  const rows: { label: string; items: string[] }[] = [
+    { label: 'Languages / Runtimes', items: stack.languages },
+    { label: 'Frameworks & Libraries', items: stack.frameworks },
+    { label: 'Tools', items: stack.tools },
+    { label: 'Package Managers', items: stack.package_managers },
+  ].filter((r) => r.items.length > 0);
+
+  return (
+    <div className={styles.stackCard}>
+      <h3 className={styles.cardTitle}>Detected Stack</h3>
+      <div className={styles.stackGrid}>
+        {rows.map(({ label, items }) => (
+          <div key={label} className={styles.stackRow}>
+            <span className={styles.stackLabel}>{label}</span>
+            <div className={styles.stackPills}>
+              {items.map((item) => (
+                <span key={item} className={styles.stackPill}>{item}</span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
